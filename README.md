@@ -1,2 +1,1 @@
-# eros-plugin-ios-previewOffice
-eros-plugin-ios-previewOffice
+# weex-plugin-ios-qiniu
