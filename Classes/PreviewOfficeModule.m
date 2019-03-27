@@ -26,17 +26,25 @@ WX_PlUGIN_EXPORT_MODULE(document, PreviewOfficeModule)
 
 @synthesize weexInstance;
 
-WX_EXPORT_METHOD(@selector(openUrl:))
+WX_EXPORT_METHOD(@selector(open:))
 
 //预览网络文件
-- (void)openUrl:(NSString *)urlStr {
+- (void)open:(NSDictionary *)info{
     self.previewController  =  [[QLPreviewController alloc]  init];
     self.previewController.dataSource  = self;
 
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSString *fileName = [urlStr lastPathComponent]; //获取文件名称
+    NSString *urlStr = [info valueForKey:@"url"];
+    NSString *fileName = [info valueForKey:@"fileName"];
+    if(fileName == nil || fileName.length <= 0){
+        fileName = [urlStr lastPathComponent]; //获取文件名称
+    }
+    BOOL isEncode =  [urlStr canBeConvertedToEncoding:NSASCIIStringEncoding];
+    if(isEncode){
+        urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
     NSURL *URL = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
@@ -51,7 +59,7 @@ WX_EXPORT_METHOD(@selector(openUrl:))
     }else {
         [SVProgressHUD showWithStatus:@"下载中"];
         NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress){
-//            NSLog(@"%@",downloadProgress);
+            // NSLog(@"%@",downloadProgress);
         } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
             NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
             NSURL *url = [documentsDirectoryURL URLByAppendingPathComponent:fileName];
