@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "WeexPluginPreviewOffice"
-  s.version      = "0.1.0"
+  s.version      = "0.1.2"
   s.summary      = "weex-plugin-previewOffice File"
 
   s.description  = <<-DESC
