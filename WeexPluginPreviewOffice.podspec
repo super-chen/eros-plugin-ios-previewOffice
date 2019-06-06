@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "WeexPluginPreviewOffice"
-  s.version      = "0.1.4"
+  s.version      = "0.1.5"
   s.summary      = "weex-plugin-previewOffice File"
 
   s.description  = <<-DESC
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.dependency 'WeexSDK', :git => 'https://github.com/bmfe/incubator-weex.git'
+  s.dependency 'WeexSDK', '~> 0.20.0'
   s.dependency 'AFNetworking', '~> 3.0'
 
 end
